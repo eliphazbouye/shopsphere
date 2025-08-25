@@ -20,3 +20,4 @@ if (process.env.NODE_ENV === "development") {
         logger_1.logger.databaseError("Prisma error", new Error(e.message));
     });
 }
+//# sourceMappingURL=client.js.map

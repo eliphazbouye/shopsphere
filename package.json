@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "description": "Boilerplate API: pnpm + TypeScript + Express v5 + Zod + Prisma (no models)",
-  "type": "module",
   "engines": {
     "node": ">=18",
     "pnpm": ">=10.13"

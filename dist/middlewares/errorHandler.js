@@ -137,3 +137,4 @@ function errorHandler(err, req, res, next) {
     }
     res.status(errorResponse.error.statusCode).json(errorResponse);
 }
+//# sourceMappingURL=errorHandler.js.map

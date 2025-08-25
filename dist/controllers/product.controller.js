@@ -69,3 +69,4 @@ async function createProduct(req, res, next) {
         next(new errors_1.DatabaseError("Failed to create product", { originalError: error }));
     }
 }
+//# sourceMappingURL=product.controller.js.map

@@ -12,6 +12,7 @@ const routes_1 = __importDefault(require("./routes"));
 const errorHandler_1 = require("./middlewares/errorHandler");
 const logging_1 = require("./middlewares/logging");
 const logger_1 = require("./utils/logger");
+const errors_1 = require("./types/errors");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use((0, helmet_1.default)());
@@ -31,6 +32,12 @@ app.get("/health", (_, res) => {
     logger_1.logger.info("Health check requested");
     res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
+// 404 handler for unmatched routes
+app.use((req, res, next) => {
+    const error = new errors_1.NotFoundError(`Route ${req.method} ${req.originalUrl} not found`);
+    next(error);
+});
 // Global error handler (must be last)
 app.use(errorHandler_1.errorHandler);
 exports.default = app;
+//# sourceMappingURL=app.js.map
