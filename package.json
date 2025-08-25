@@ -14,7 +14,7 @@
     "lint": "eslint --ext .ts src || true",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
-    "prepare": "pnpm prisma:generate"
+    "prepare": "npx prisma generate || true"
   },
   "dependencies": {
     "@prisma/client": "^6.14.0",
