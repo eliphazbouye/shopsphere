@@ -3,7 +3,7 @@ import { createProduct, listProducts } from "../controllers/product.controller";
 import { validate } from "../middlewares/validate";
 import { productCreateSchema } from "../schemas/productSchema";
 
-const router = Router();
+const router: Router = Router();
 
 /**
  * Example endpoints:

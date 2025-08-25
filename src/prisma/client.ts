@@ -1,4 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../generated/prisma";
+import { logger } from "../utils/logger";
 
 export const prisma = new PrismaClient({
   log: [
@@ -11,8 +12,11 @@ export const prisma = new PrismaClient({
 
 // Optionally attach query logging to console (development)
 if (process.env.NODE_ENV === "development") {
-  prisma.$on("query", (e) => {
-    // eslint-disable-next-line no-console
-    console.log("Prisma query:", e.query);
+  prisma.$on("query", (e: any) => {
+    logger.databaseQuery(e.query, e.duration);
+  });
+
+  prisma.$on("error", (e: any) => {
+    logger.databaseError("Prisma error", new Error(e.message));
   });
 }
