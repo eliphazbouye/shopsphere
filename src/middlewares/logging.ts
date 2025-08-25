@@ -7,21 +7,21 @@ import { logger } from '../utils/logger';
  */
 export const apiLogger = (req: Request, res: Response, next: NextFunction): void => {
   const startTime = Date.now();
-  
+
   // Generate a simple request ID for tracking
-  const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  
+  const requestId = `req_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+
   // Store requestId in request for use in other middleware/controllers
   (req as any).requestId = requestId;
-  
+
   // Log incoming request
   logger.apiRequest(req.method, req.path, {
     requestId,
     metadata: {
       userAgent: req.get('user-agent'),
-      ip: req.ip || req.connection.remoteAddress,
+      ip: req.ip || req.socket.remoteAddress,
       query: Object.keys(req.query).length > 0 ? req.query : undefined,
-      body: req.method !== 'GET' && req.body ? 
+      body: req.method !== 'GET' && req.body ?
         (typeof req.body === 'object' ? Object.keys(req.body) : 'non-object') : undefined
     }
   });

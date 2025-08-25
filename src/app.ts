@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Express } from "express";
 import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
@@ -8,11 +8,11 @@ import apiRouter from "./routes";
 import { errorHandler } from "./middlewares/errorHandler";
 import { apiLogger } from "./middlewares/logging";
 import { logger } from "./utils/logger";
-import { NotFoundError } from "./types/errors";
+import { NotFoundError } from "./errors";
 
 dotenv.config();
 
-const app = express();
+const app: Express = express();
 
 app.use(helmet());
 app.use(cors());

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";
 import { logger } from "../utils/logger";
 import { STATUS_CODES } from "../constants/statusCodes";
-import { AppError, ValidationError, DatabaseError } from "../types/errors";
+import { AppError, ValidationError, DatabaseError } from "../errors";
 
 interface ErrorResponse {
   error: {
@@ -58,7 +58,7 @@ export function errorHandler(err: unknown, req: Request, res: Response, next: Ne
         code: issue.code
       }))
     });
-    
+
     errorResponse = {
       error: {
         message: validationError.message,
@@ -74,7 +74,7 @@ export function errorHandler(err: unknown, req: Request, res: Response, next: Ne
     // Handle database-like errors (including Prisma errors)
     const dbErr = err as any;
     let dbError: DatabaseError;
-    
+
     switch (dbErr.code) {
       case 'P2002':
         dbError = new DatabaseError(STATUS_CODES.DUPLICATE_ENTRY.message, {
@@ -106,7 +106,7 @@ export function errorHandler(err: unknown, req: Request, res: Response, next: Ne
           meta: dbErr.meta
         });
     }
-    
+
     errorResponse = {
       error: {
         message: dbError.message,
@@ -120,10 +120,10 @@ export function errorHandler(err: unknown, req: Request, res: Response, next: Ne
     };
   } else if (err instanceof Error) {
     // Generic JavaScript errors
-    const statusCode = (err as any).statusCode || 
-                      (err as any).status || 
+    const statusCode = (err as any).statusCode ||
+                      (err as any).status ||
                       STATUS_CODES.INTERNAL_SERVER_ERROR.code;
-    
+
     errorResponse = {
       error: {
         message: err.message || STATUS_CODES.INTERNAL_SERVER_ERROR.message,
@@ -143,8 +143,8 @@ export function errorHandler(err: unknown, req: Request, res: Response, next: Ne
         statusCode: STATUS_CODES.INTERNAL_SERVER_ERROR.code,
         timestamp,
         requestId,
-        ...(process.env.NODE_ENV === "development" ? { 
-          stack: typeof err === 'object' ? JSON.stringify(err) : String(err) 
+        ...(process.env.NODE_ENV === "development" ? {
+          stack: typeof err === 'object' ? JSON.stringify(err) : String(err)
         } : {})
       }
     };
